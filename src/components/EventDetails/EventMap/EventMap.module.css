@@ -1,0 +1,24 @@
+.mapContainer {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: inline-block;
+  width: 100%;
+  max-width: 640px; /* Aumentado para conter melhor o mapa */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: var(--fundo-meio);
+}
+
+.mapContainer h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8em;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.mapContainer iframe {
+  width: 100%;
+  height: 450px;
+  border-radius: 8px; /* Adiciona bordas arredondadas ao mapa */
+}
