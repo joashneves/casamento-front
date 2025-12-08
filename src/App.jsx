@@ -4,6 +4,8 @@ import EventDetails from './components/EventDetails/EventDetails';
 import RSVPForm from './components/RSVPForm/RSVPForm';
 import Footer from './components/Footer/Footer';
 import './App.css';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
 
 function App() {
   return (
