@@ -55,6 +55,18 @@
   font-weight: bold;
 }
 
+.name-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.name-input-group .p-inputtext {
+  flex-grow: 1;
+}
+
+
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group textarea {
@@ -87,8 +99,7 @@
   margin-bottom: 0;
 }
 
-.rsvp-form button {
-  background-color: #358cff; /* Marrom escuro */
+.rsvp-form, .butaon, .inputEnviar{
   color: white;
   padding: 14px 25px;
   border: none;
@@ -101,9 +112,22 @@
   width: 100%;
 }
 
-.rsvp-form button:hover {
+.rsvp-form .inputEnviar {
+  background-color: #358cff; /* Marrom escuro */
+}
+
+.rsvp-form .inputEnviar:hover {
   background-color: #2861ac; /* Marrom um pouco mais escuro no hover */
 }
+
+.inputtexto{
+  height: 48px;
+  width: 100%;
+}
+.butaoCancelar{
+  height: 48px;
+}
+
 
 @media (max-width: 768px) {
   .rsvp-form {
@@ -120,6 +144,11 @@
 
   .radio-group {
     flex-direction: column;
+    gap: 15px;
+  }
+  .checkbox {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 15px;
   }
 }

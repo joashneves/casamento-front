@@ -38,11 +38,8 @@
   width: 600px;
 }
 
-
 @media (max-width: 768px) {
   .image{
     width: 300px;
   }
-
-
 }
