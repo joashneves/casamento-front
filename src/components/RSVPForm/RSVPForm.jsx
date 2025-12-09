@@ -8,7 +8,7 @@ import { InputText } from "primereact/inputtext";
 
 function RSVPForm() {
   const [names, setNames] = useState([""]); // Array to hold guest names
-  const [attending, setAttending] = useState("");
+
   const [message, setMessage] = useState("");
   const [posso, setPosso] = useState("");
 
@@ -39,32 +39,70 @@ function RSVPForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    console.log({
-      names,
-      attending,
-      message,
-    });
+    const apiEndpoint = import.meta.env.VITE_API_URL + "/api/rsvp";
+    const isAttending = posso === "sim"; // Convert "sim"/"nao" to boolean
 
-    alert("Obrigado por seu RSVP! (Este é um formulário de exemplo)");
+    try {
+      if (isAttending) {
+        // Send a request for each person attending
+        for (const name of names) {
+          if (name.trim() === "") continue; // Skip empty names
+          const response = await fetch(apiEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: name.trim(),
+              attending: isAttending,
+              message: message,
+            }),
+          });
 
-    if (posso === "sim") {
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 5000);
-    }
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+          }
+        }
+      } else {
+        // If not attending, send just one request with the first name and message
+        const response = await fetch(apiEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: names[0].trim() || "Convidado Anônimo", // Use first name or anonymous
+            attending: isAttending,
+            message: message,
+          }),
+        });
 
-    // Reset form
-    setNames([""]);
-    setAttending("");
-    setMessage("");
-    setPosso("");
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+        }
+      }
 
-    setTimeout(() => {
+      alert("Obrigado por seu RSVP! Sua resposta foi registrada.");
+      if (isAttending) { // Only show confetti if attending
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 5000);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar RSVP:", error);
+      alert(`Erro ao enviar RSVP: ${error.message}`);
+    } finally {
       setLoading(false);
-    }, 2000);
+      // Reset form
+      setNames([""]);
+      // setMessage("");
+      setPosso("");
+    }
   };
 
   return (
@@ -84,7 +122,7 @@ function RSVPForm() {
                 value={name}
                 onChange={(e) => handleNameChange(index, e.target.value)}
                 placeholder={
-                  index === 0 ? "Seu nome completo" : "Nome do acompanhante"
+                  index === 0 ? " Seu nome completo" : " Nome do acompanhante"
                 }
                 required
               />
@@ -105,7 +143,7 @@ function RSVPForm() {
               type="button"
               icon="pi pi-plus"
               severity="success"
-              label="Adicionar acompanhante"
+              label=" Adicionar acompanhante"
               onClick={addNameInput}
               style={{ marginTop: "10px" }}
             />
@@ -182,6 +220,12 @@ function RSVPForm() {
           <></>
         )}
       </form>
+      <div>
+        <h2>Contato</h2>
+        <p>
+          <strong>Telefone:</strong> +55 28 999884496{" "}| +55 22 998698376{" "}| +55 28 999731743{" "}
+        </p>
+      </div>
     </section>
   );
 }

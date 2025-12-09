@@ -1,0 +1,14 @@
+.cardGuest {
+    /* Styles for the container around the DataTable */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* Rounded corners for the container */
+}
+.cardGuest .columGuest{
+    padding: 16px;
+}
+/* Optional: Adjustments for smaller screens if needed */
+@media (max-width: 768px) {
+    .cardGuest {
+        margin: 10px auto;
+    }
+}
