@@ -43,14 +43,12 @@ function Home() {
 
   return (
     <div className="App">
-      <Header />
       <main>
         <EventDetails />
         <div ref={rsvpFormRef}>
           <RSVPForm />
         </div>
       </main>
-      <Footer />
       {!isRsvpFormVisible && (
         <Button
           label="Convite"
