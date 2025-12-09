@@ -7,7 +7,6 @@ import EventHora from './EventHora/EventHora';
 function EventDetails() {
   return (
     <section className={styles['event-details']}>
-      <h2>Detalhes do Evento</h2>
       <EventInfo/>
       <EventHora/>
       <EventMap/>

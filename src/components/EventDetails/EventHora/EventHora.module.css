@@ -9,14 +9,13 @@
 }
 
 .info h3 {
-  font-family: 'Playfair Display', serif;
+
   font-size: 1.8em;
   color: #555;
   margin-bottom: 15px;
 }
 
 .info p {
-  font-family: 'Open Sans', sans-serif;
   font-size: 1.1em;
   color: #777;
   line-height: 1.6;
