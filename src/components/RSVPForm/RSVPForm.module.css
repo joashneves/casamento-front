@@ -127,7 +127,12 @@
 .butaoCancelar{
   height: 48px;
 }
-
+.imagemFabulosa{
+  width: 300px;
+}
+.bolo{
+  width: 128px;
+}
 
 @media (max-width: 768px) {
   .rsvp-form {
@@ -151,4 +156,12 @@
     align-items: flex-start;
     gap: 15px;
   }
+  .imagemFabulosa{
+  width: 200px;
+}
+.bolo{
+  width: 64px;
+}
+
+
 }

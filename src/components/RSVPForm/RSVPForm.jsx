@@ -5,6 +5,8 @@ import { Button } from "primereact/button";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { InputText } from "primereact/inputtext";
+import bolo from '../../../public/bolo.png';
+import imagemFabuslosa from '../../../public/fabulosoring.png'
 
 function RSVPForm() {
   const [names, setNames] = useState([""]); // Array to hold guest names
@@ -107,6 +109,7 @@ function RSVPForm() {
 
   return (
     <section className={styles["rsvp-form"]}>
+      <img src={bolo} alt="bolo" className={styles.bolo} />
       <h2>Confirme sua Presença</h2>
       <p>Por favor, responda até 31 de janeiro de 2026</p>
       <form onSubmit={handleSubmit}>
@@ -226,6 +229,7 @@ function RSVPForm() {
           <strong>Telefone:</strong> +55 28 999884496{" "}| +55 22 998698376{" "}| +55 28 999731743{" "}
         </p>
       </div>
+      <img src={imagemFabuslosa} alt="imagem fabulosa" className={styles.imagemFabulosa}/>
     </section>
   );
 }

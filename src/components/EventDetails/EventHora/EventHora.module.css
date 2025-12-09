@@ -31,3 +31,15 @@
 .info a:hover {
   text-decoration: underline;
 }
+
+.calendario{
+  width: 600px;
+  
+}
+
+@media (max-width: 768px) {
+ .calendario{
+  padding: 16px 0 0 0;
+  width: 300px;
+}
+}

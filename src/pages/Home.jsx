@@ -51,7 +51,7 @@ function Home() {
       </main>
       {!isRsvpFormVisible && (
         <Button
-          label="Convite"
+          label="Confirmar presença"
           className="p-button p-button-secondary scroll-to-rsvp-button"
           aria-label="Scroll to RSVP form"
           onClick={scrollToRsvp}
