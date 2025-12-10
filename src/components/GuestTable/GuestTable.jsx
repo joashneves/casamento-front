@@ -1,23 +1,21 @@
 import React from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import styles from './GuestTable.module.css'; // Import the CSS module
+import styles from './GuestTable.module.css';
 
 const GuestTable = ({ guests }) => {
 
-  // Template for 'attending' column
   const attendingBodyTemplate = (rowData) => {
-    return rowData.attending ? 'Confirmada' : 'Não Ira';
+    return rowData.attending ? 'Confirmada' : 'Não Irá';
   };
 
-  // Template for 'timestamp' column
   const timestampBodyTemplate = (rowData) => {
     return new Date(rowData.timestamp).toLocaleString();
   };
 
   return (
-     <div className={styles.cardGuest}>
-      <DataTable value={guests} stripedRows paginator rows={20} 
+    <div className={styles.cardGuest}>
+      <DataTable value={guests} stripedRows paginator rows={20}
         emptyMessage="Nenhum convidado encontrado."
       >
         <Column className={styles.columGuest} field="name" header="Nome" sortable filter filterPlaceholder="Buscar por nome"></Column>

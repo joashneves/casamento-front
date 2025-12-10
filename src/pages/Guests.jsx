@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-import styles from './Guests.module.css'; // Import the CSS module
+import styles from './Guests.module.css';
 import GuestTable from '../components/GuestTable/GuestTable';
 
 function Guests() {
@@ -10,6 +9,8 @@ function Guests() {
 
   useEffect(() => {
     const fetchGuests = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const response = await fetch(import.meta.env.VITE_API_URL + "/api/rsvps");
         if (!response.ok) {
@@ -18,7 +19,7 @@ function Guests() {
         const data = await response.json();
         setGuests(data);
       } catch (e) {
-        setError(e);
+        setError(e.message);
       } finally {
         setLoading(false);
       }
@@ -27,21 +28,23 @@ function Guests() {
     fetchGuests();
   }, []);
 
-  if (loading) {
-    return <div className={styles.guestsContainer}>Carregando convidados...</div>;
-  }
-
-  if (error) {
-    return <div className={`${styles.guestsContainer} ${styles.errorMessage}`}>Erro ao carregar convidados: {error.message}</div>;
-  }
 
   return (
     <div className={styles.guestsContainer}>
-      <h2 className={styles.tableTitle}>Lista de Convidados</h2>
-      {guests.length === 0 ? (
-        <p>Nenhum convidado registrado ainda.</p>
-      ) : (
-        <GuestTable guests={guests} />
+      <div className={styles.header}>
+        <h2 className={styles.tableTitle}>Lista de Convidados</h2>
+      </div>
+      
+      {loading && <p>Carregando convidados...</p>}
+      
+      {error && <p className={styles.errorMessage}>Erro: {error}</p>}
+
+      {!loading && !error && (
+        guests.length === 0 ? (
+          <p>Nenhum convidado registrado ainda.</p>
+        ) : (
+          <GuestTable guests={guests} />
+        )
       )}
     </div>
   );

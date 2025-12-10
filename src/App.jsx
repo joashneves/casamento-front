@@ -5,6 +5,8 @@ import Guests from './pages/Guests'; // Will create this next
 import './App.css'; // Keep App.css for general styling
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import Gifts from './pages/Gifts';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/guests" element={<Guests />} />
+        <Route path="/gifts" element={<Gifts/>}/>
+        <Route path="/admin" element={<Admin />} />
       </Routes>
       <Footer/>
     </BrowserRouter>

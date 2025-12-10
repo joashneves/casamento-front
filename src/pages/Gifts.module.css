@@ -1,0 +1,142 @@
+.giftsContainer {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+.giftsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.giftCard {
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    background-color: #fff;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+.giftCard h2{
+  font-family: "Tangerine", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.giftCard:hover {
+    transform: translateY(-5px);
+}
+
+.giftIcon {
+    font-size: 2.5rem;
+    color: var(--primary-color, #6366F1);
+    margin-bottom: 1rem;
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0.5rem 0 1rem 0;
+}
+
+.gifted {
+    background-color: #f8f9fa;
+}
+
+.giftedOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    color: #333;
+}
+
+.giftedOverlay p {
+    margin: 0;
+}
+
+.giftedOverlay strong {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.adminActions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.errorMessage {
+    color: #d9534f;
+}
+
+.pageHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.pageHeader h1 {
+    font-family: "Ephesis", cursive;
+    margin: 0;
+}
+
+.labelDialog{
+    padding: 28px;
+}
+.footerForm{
+    display: flex;
+    justify-items: center;
+}
+.footerForm button{
+    margin-left: 16px;
+}
+.butoaodePix{
+    margin: 16px;
+}
+.botaoDarPresente{
+    margin: 16px;
+    padding: 8px;
+}
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .labelDialog{
+    padding: auto;
+    }
+    .giftsGrid {
+    display: flex;
+    flex-direction: column;
+    }
+}
+
+.giftImage {
+    max-width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    object-fit: contain; /* Ensures the image fits without distortion */
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}

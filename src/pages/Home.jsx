@@ -9,6 +9,7 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import 'primeicons/primeicons.css';
         
 import { Button } from 'primereact/button';
+import { Presente } from '../components/Presentes/Presentes';
 
 function Home() {
   const [isRsvpFormVisible, setIsRsvpFormVisible] = useState(true);
@@ -47,7 +48,9 @@ function Home() {
         <EventDetails />
         <div ref={rsvpFormRef}>
           <RSVPForm />
+          
         </div>
+    
       </main>
       {!isRsvpFormVisible && (
         <Button

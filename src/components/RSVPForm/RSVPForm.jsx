@@ -7,6 +7,7 @@ import { useWindowSize } from "react-use";
 import { InputText } from "primereact/inputtext";
 import bolo from '../../../public/bolo.png';
 import imagemFabuslosa from '../../../public/fabulosoring.png'
+import { Presente } from "../Presentes/Presentes";
 
 function RSVPForm() {
   const [names, setNames] = useState([""]); // Array to hold guest names
@@ -222,6 +223,7 @@ function RSVPForm() {
           <></>
         )}
       </form>
+          <Presente/>
       <div>
         <h2>Contato</h2>
         <p>
