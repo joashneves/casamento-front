@@ -187,7 +187,7 @@ function RSVPForm() {
             width={width}
             height={height}
             colors={["#FFF", "#577590"]}
-            numberOfPieces={300}
+            numberOfPieces={255}
             gravity={0.25}
             style={{
               position: "fixed",
