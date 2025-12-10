@@ -90,7 +90,6 @@ function RSVPForm() {
         }
       }
 
-      alert("Obrigado por seu RSVP! Sua resposta foi registrada.");
       if (isAttending) { // Only show confetti if attending
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 5000);
