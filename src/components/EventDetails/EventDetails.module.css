@@ -6,7 +6,6 @@
 }
 
 .event-details h2 {
-  font-size: 2.5em;
   color: #333;
   margin-bottom: 30px;
 }
@@ -24,14 +23,11 @@
 }
 
 .detail-item h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8em;
   color: #555;
   margin-bottom: 15px;
 }
 
 .detail-item p {
-  font-size: 1.1em;
   color: #777;
   line-height: 1.6;
 }
@@ -50,16 +46,8 @@
   .event-details {
     padding: 30px 15px;
   }
-
-  .event-details h2 {
-    font-size: 2em;
-  }
-
   .detail-item {
     padding: 15px;
   }
 
-  .detail-item h3 {
-    font-size: 1.5em;
-  }
 }

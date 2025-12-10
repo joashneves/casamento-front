@@ -108,14 +108,14 @@ function RSVPForm() {
   };
 
   return (
-    <section className={styles["rsvp-form"]}>
+    <div className={styles["rsvp-form"]}>
       <img src={bolo} alt="bolo" className={styles.bolo} />
       <h2>Confirme sua Presença</h2>
-      <p>Por favor, responda até 31 de janeiro de 2026</p>
+      <p>Por favor, responda até 31 de Janeiro de 2026</p>
       <form onSubmit={handleSubmit}>
         <div className={styles["form-group"]}>
           <label htmlFor="name">
-            Seu Nome Completo e de seus acompanhantes:
+            <p>Seu Nome Completo e de seus acompanhantes:</p>
           </label>
           {names.map((name, index) => (
             <div key={index} className={`${styles["name-input-group"]}`}>
@@ -230,7 +230,7 @@ function RSVPForm() {
         </p>
       </div>
       <img src={imagemFabuslosa} alt="imagem fabulosa" className={styles.imagemFabulosa}/>
-    </section>
+    </div>
   );
 }
 
