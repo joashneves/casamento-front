@@ -7,7 +7,7 @@ export const Presente = () =>{
   return(<>
   <h3>Presentes</h3>
   <p>Quer presentear os noivos? Confira aqui algumas sugestões!</p>
-  <Link to="gifts">
+  <Link to="/gifts">
   <Button className={styles.botaocapenga} label="Presentes"/>
   </Link>
   </>)
