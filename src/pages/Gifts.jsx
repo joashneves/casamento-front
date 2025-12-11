@@ -20,7 +20,9 @@ function Gifts() {
             const response = await fetch(import.meta.env.VITE_API_URL + "/api/gifts");
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data = await response.json();
-            setGifts(data);
+            // Sort gifts by price from highest to lowest
+            const sortedData = data.sort((a, b) => b.price - a.price);
+            setGifts(sortedData);
         } catch (e) {
             setError(e.message);
         } finally {
