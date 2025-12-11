@@ -7,6 +7,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Gifts from './pages/Gifts';
 import Admin from './pages/Admin';
+import Padrinhos from './pages/Padrinhos';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
     <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/padrinhos" element={<Padrinhos />} />
         <Route path="/guests" element={<Guests />} />
         <Route path="/gifts" element={<Gifts/>}/>
         <Route path="/admin" element={<Admin />} />

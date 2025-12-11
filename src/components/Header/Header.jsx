@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './Header.module.css';
 import ring from '../../../public/ring.svg';
 import rings from '../../../public/rings.png';
+
+
 function Header() {
   return (
     <header className={styles.header}>

@@ -1,0 +1,13 @@
+.bloco {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  transition: border 0.3s ease-in-out;
+  border: 1px solid #ccc;
+}
+
+.bloco:hover{
+    border-radius: 12px;
+  transition: border 0.3s ease-in-out;
+  border: 1px solid #ccc;
+}
