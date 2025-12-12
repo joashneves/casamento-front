@@ -140,3 +140,27 @@
     border-radius: 8px;
     margin-bottom: 1rem;
 }
+
+.pixSuggestion {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    text-align: center;
+}
+
+.pixSuggestion p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.pixQrCode {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}

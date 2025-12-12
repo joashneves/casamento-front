@@ -99,6 +99,12 @@ function Gifts() {
             </div>
             <p className={styles.subtitle}>Sua presença é o nosso maior presente, mas se desejar, pode nos presentear com um dos itens abaixo.</p>
             
+            <div className={styles.pixSuggestion}>
+                <p>Se preferir, você também pode nos presentear de forma prática e rápida através do PIX.</p>
+                <img src="/qrcode-pix.png" alt="QR Code PIX" className={styles.pixQrCode} />
+                <p>Qualquer contribuição é muito bem-vinda e será usada com carinho para mobiliar nosso novo lar.</p>
+            </div>
+            
             {loading && <p>Carregando...</p>}
             {error && <p className={styles.errorMessage}>Erro: {error}</p>}
 
