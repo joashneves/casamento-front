@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './AlbumDeFotos.module.css'
 import { Galleria } from 'primereact/galleria';
 import { PhotoService } from '../../utils/photoService';
@@ -17,8 +17,9 @@ function AlbumDeFotos(){
     const [activeIndex, setActiveIndex] = useState(0);    
     const [showConfetti, setShowConfetti] = useState(true);
     const galleria = useRef(null);
+    const observer = useRef();
 
-    const loadImages = async () => {
+    const loadImages = useCallback(async () => {
         if (loading || !hasMore) return;
         setLoading(true);
         try {
@@ -33,7 +34,19 @@ function AlbumDeFotos(){
         } finally {
             setLoading(false);
         }
-    };
+    }, [offset, hasMore, loading]);
+
+    // Elemento que dispara o carregamento ao ser visto (Infinite Scroll)
+    const lastImageElementRef = useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                loadImages();
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore, loadImages]);
 
     useEffect(() => {
         loadImages();
@@ -46,11 +59,11 @@ function AlbumDeFotos(){
     }, []);
 
     const itemTemplate = (item) => {
-        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} />;
+        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} loading="lazy" crossOrigin="anonymous" />;
     }
 
     const thumbnailTemplate = (item) => {
-        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} />;
+        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} loading="lazy" crossOrigin="anonymous" />;
     }
 
     return(
@@ -99,21 +112,26 @@ function AlbumDeFotos(){
                                     src={image.thumbnailImageSrc} 
                                     className={styles.imagem} 
                                     alt={image.alt} 
-                                
+                                    loading="lazy"
+                                    crossOrigin="anonymous"
                                 />
                             </div>
                         ))
                     }
                 </div>
-                {hasMore && (
-                    <div className={styles.loadMoreContainer}>
-                        <button 
-                            className={styles.loadMoreButton} 
-                            onClick={loadImages} 
-                            disabled={loading}
-                        >
-                            {loading ? 'Carregando...' : 'Ver mais fotos'}
-                        </button>
+
+                {/* Sentinela para o Infinite Scroll */}
+                <div ref={lastImageElementRef} style={{ height: '40px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+                    {loading && (
+                        <div className={styles.loadingStatus}>
+                            Carregando mais fotos...
+                        </div>
+                    )}
+                </div>
+                
+                {!hasMore && images.length > 0 && (
+                    <div className={styles.endMessage}>
+                        Você chegou ao fim do álbum! ✨
                     </div>
                 )}
             </div>

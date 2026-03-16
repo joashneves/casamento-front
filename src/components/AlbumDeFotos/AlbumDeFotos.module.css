@@ -90,36 +90,26 @@
   }
 }
 
-.loadMoreContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
+.loadingStatus {
+  color: #577590;
+  font-weight: bold;
+  font-style: italic;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.endMessage {
+  margin-top: 20px;
+  color: #777;
+  font-size: 1.1rem;
+  font-family: 'Dancing Script', cursive; /* Se tiver disponível, senão usa padrão */
+  border-top: 1px solid #eee;
+  padding-top: 20px;
   width: 100%;
-}
-
-.loadMoreButton {
-  padding: 12px 24px;
-  background-color: #577590;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.loadMoreButton:hover {
-  background-color: #455d73;
-  transform: translateY(-2px);
-}
-
-.loadMoreButton:active {
-  transform: translateY(0);
-}
-
-.loadMoreButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-  transform: none;
+  text-align: center;
 }
