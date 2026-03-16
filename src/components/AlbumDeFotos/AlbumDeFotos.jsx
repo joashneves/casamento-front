@@ -2,11 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './AlbumDeFotos.module.css'
 import { Galleria } from 'primereact/galleria';
 import { PhotoService } from '../../utils/photoService';
+import Confetti from "react-confetti";
+import { useWindowSize } from 'react-use';
 
 function AlbumDeFotos(){
+    const { width, height } = useWindowSize();
 
     const [images, setImages] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);    
+    const [showConfetti, setShowConfetti] = useState(true);
     const galleria = useRef(null);
 
     useEffect(() => {
@@ -17,6 +21,12 @@ function AlbumDeFotos(){
             );
             setImages(filteredImages);
         });
+
+        const timer = setTimeout(() => {
+            setShowConfetti(false);
+        }, 5000);
+
+        return () => clearTimeout(timer);
     }, []);
 
     const itemTemplate = (item) => {
@@ -29,6 +39,22 @@ function AlbumDeFotos(){
 
     return(
         <div className={styles.info}>
+            {showConfetti && (
+                <Confetti
+                    width={width}
+                    height={height}
+                    colors={["#FFF", "#577590"]}
+                    numberOfPieces={255}
+                    gravity={0.25}
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        pointerEvents: "none",
+                        zIndex: 9999,
+                    }}
+                />
+            )}
             <div className="card flex justify-content-center">
                 <Galleria 
                     ref={galleria} 

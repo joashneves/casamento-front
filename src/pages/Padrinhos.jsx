@@ -21,7 +21,7 @@ function Padrinhos() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowConfetti(false);
-    }, 5000); // Confetti will be visible for 5 seconds
+    }, 3000); // Confetti will be visible for 3 seconds
 
     return () => clearTimeout(timer);
   }, []);

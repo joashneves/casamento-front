@@ -65,7 +65,7 @@ function RSVPForm() {
 
       if (isAttending) { // Only show confetti if attending
         setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 5000);
+        setTimeout(() => setShowConfetti(false), 3000);
       }
     } catch (error) {
       console.error("Erro ao enviar RSVP:", error);
