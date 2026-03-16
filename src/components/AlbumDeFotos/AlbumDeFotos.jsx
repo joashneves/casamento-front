@@ -1,9 +1,28 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import styles from './AlbumDeFotos.module.css'
 import { Galleria } from 'primereact/galleria';
 import { PhotoService } from '../../utils/photoService';
 import Confetti from "react-confetti";
 import { useWindowSize } from 'react-use';
+
+// Componente de imagem separado para evitar re-renders desnecessários
+const ImageItem = React.memo(({ image, index, onClick }) => {
+    return (
+        <div 
+            className={styles.imagemContainer} 
+            onClick={() => onClick(index)}
+        >
+            <img 
+                src={image.thumbnailImageSrc} 
+                className={styles.imagem} 
+                alt={image.alt} 
+                loading="lazy"
+                decoding="async"
+                crossOrigin="anonymous"
+            />
+        </div>
+    );
+});
 
 function AlbumDeFotos(){
     const { width, height } = useWindowSize();
@@ -12,6 +31,7 @@ function AlbumDeFotos(){
     const [offset, setOffset] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [isGalleriaVisible, setIsGalleriaVisible] = useState(false);
     const limit = 10;
 
     const [activeIndex, setActiveIndex] = useState(0);    
@@ -36,7 +56,6 @@ function AlbumDeFotos(){
         }
     }, [offset, hasMore, loading]);
 
-    // Elemento que dispara o carregamento ao ser visto (Infinite Scroll)
     const lastImageElementRef = useCallback(node => {
         if (loading) return;
         if (observer.current) observer.current.disconnect();
@@ -45,31 +64,32 @@ function AlbumDeFotos(){
             if (entries[0].isIntersecting && hasMore) {
                 loadImages();
             }
-        }, { threshold: 0.1 }); // Added a threshold for better performance
+        }, { threshold: 0.1, rootMargin: '200px' });
 
         if (node) observer.current.observe(node);
     }, [loading, hasMore, loadImages]);
 
     useEffect(() => {
         loadImages();
-
-        const timer = setTimeout(() => {
-            setShowConfetti(false);
-        }, 5000);
-
+        const timer = setTimeout(() => setShowConfetti(false), 4000);
         return () => {
             clearTimeout(timer);
             if (observer.current) observer.current.disconnect();
         };
     }, []);
 
-    const itemTemplate = (item) => {
-        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} loading="lazy" decoding="async" crossOrigin="anonymous" />;
-    }
+    const onImageClick = useCallback((index) => {
+        setActiveIndex(index);
+        setIsGalleriaVisible(true);
+        // Pequeno delay para garantir que o componente Galleria foi montado
+        setTimeout(() => {
+            if (galleria.current) galleria.current.show();
+        }, 10);
+    }, []);
 
-    const thumbnailTemplate = (item) => {
-        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} loading="lazy" decoding="async" crossOrigin="anonymous" />;
-    }
+    const itemTemplate = useCallback((item) => (
+        <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} decoding="async" />
+    ), []);
 
     return(
         <div className={styles.info}>
@@ -78,68 +98,48 @@ function AlbumDeFotos(){
                     width={width}
                     height={height}
                     colors={["#FFF", "#577590"]}
-                    numberOfPieces={width < 768 ? 20 : 50} // Reduced number of pieces
-                    recycle={false} // Don't recycle to stop animation eventually
-                    gravity={0.25}
-                    style={{
-                        position: "fixed",
-                        top: 0,
-                        left: 0,
-                        pointerEvents: "none",
-                        zIndex: 9999,
-                    }}
+                    numberOfPieces={width < 768 ? 15 : 40}
+                    recycle={false}
+                    gravity={0.3}
+                    style={{ position: "fixed", top: 0, left: 0, pointerEvents: "none", zIndex: 9999 }}
                 />
             )}
+            
             <div className="card flex justify-content-center">
-                <Galleria 
-                    ref={galleria} 
-                    value={images} 
-                    numVisible={7} 
-                    style={{ maxWidth: '850px' }}
-                    activeIndex={activeIndex} 
-                    onItemChange={(e) => setActiveIndex(e.index)}
-                    circular 
-                    fullScreen 
-                    showItemNavigators 
-                    showThumbnails={false} 
-                    item={itemTemplate} 
-                    thumbnail={thumbnailTemplate} 
-                />
+                {isGalleriaVisible && (
+                    <Galleria 
+                        ref={galleria} 
+                        value={images} 
+                        numVisible={7} 
+                        style={{ maxWidth: '850px' }}
+                        activeIndex={activeIndex} 
+                        onItemChange={(e) => setActiveIndex(e.index)}
+                        onHide={() => setIsGalleriaVisible(false)}
+                        circular 
+                        fullScreen 
+                        showItemNavigators 
+                        showThumbnails={false} 
+                        item={itemTemplate} 
+                    />
+                )}
                 
                 <div className={styles.imagens}>
-                    {
-                        images && images.map((image, index) => (
-                            <div 
-                                className={styles.imagemContainer} 
-                                key={image.alt || index}
-                                onClick={() => { setActiveIndex(index); galleria.current.show(); }}
-                            >
-                                <img 
-                                    src={image.thumbnailImageSrc} 
-                                    className={styles.imagem} 
-                                    alt={image.alt} 
-                                    loading="lazy"
-                                    decoding="async"
-                                    crossOrigin="anonymous"
-                                />
-                            </div>
-                        ))
-                    }
+                    {images.map((image, index) => (
+                        <ImageItem 
+                            key={image.alt || index} 
+                            image={image} 
+                            index={index} 
+                            onClick={onImageClick} 
+                        />
+                    ))}
                 </div>
 
-                {/* Sentinela para o Infinite Scroll */}
-                <div ref={lastImageElementRef} style={{ height: '40px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-                    {loading && (
-                        <div className={styles.loadingStatus}>
-                            Carregando mais fotos...
-                        </div>
-                    )}
+                <div ref={lastImageElementRef} style={{ height: '60px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+                    {loading && <div className={styles.loadingStatus}>Carregando fotos...</div>}
                 </div>
                 
                 {!hasMore && images.length > 0 && (
-                    <div className={styles.endMessage}>
-                        Você chegou ao fim do álbum! ✨
-                    </div>
+                    <div className={styles.endMessage}>Você chegou ao fim do álbum! ✨</div>
                 )}
             </div>
         </div>
