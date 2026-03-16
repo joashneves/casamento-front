@@ -8,13 +8,15 @@ import Footer from './components/Footer/Footer';
 import Gifts from './pages/Gifts';
 import Admin from './pages/Admin';
 import Padrinhos from './pages/Padrinhos';
+import Album from './pages/album';
 
 function App() {
   return (
     <BrowserRouter>
     <Header/>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Album/>} />
+        <Route path="/convite" element={<Home />} />
         <Route path="/padrinhos" element={<Padrinhos />} />
         <Route path="/guests" element={<Guests />} />
         <Route path="/gifts" element={<Gifts/>}/>

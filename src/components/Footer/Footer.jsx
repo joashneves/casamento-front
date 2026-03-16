@@ -5,7 +5,7 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <p>&copy; 2025 Nicolle Melo Dias & Joas Sedano das Neves. Todos os direitos reservados. </p>
-      <p>Mal podemos esperar para celebrar com vocês!</p>
+      <p>Obrigado pela presença de todos!</p>
     </footer>
   );
 }

@@ -54,41 +54,13 @@ function RSVPForm() {
         // Send a request for each person attending
         for (const name of names) {
           if (name.trim() === "") continue; // Skip empty names
-          const response = await fetch(apiEndpoint, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: name.trim(),
-              attending: isAttending,
-              message: message,
-            }),
-          });
-
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-          }
+          
+          
         }
       } else {
         // If not attending, send just one request with the first name and message
-        const response = await fetch(apiEndpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: names[0].trim() || "Convidado Anônimo", // Use first name or anonymous
-            attending: isAttending,
-            message: message,
-          }),
-        });
+        
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-        }
       }
 
       if (isAttending) { // Only show confetti if attending
