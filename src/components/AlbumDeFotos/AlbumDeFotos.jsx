@@ -30,11 +30,11 @@ function AlbumDeFotos(){
     }, []);
 
     const itemTemplate = (item) => {
-        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} />;
+        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} loading="lazy" />;
     }
 
     const thumbnailTemplate = (item) => {
-        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} />;
+        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} loading="lazy" />;
     }
 
     return(
@@ -44,7 +44,7 @@ function AlbumDeFotos(){
                     width={width}
                     height={height}
                     colors={["#FFF", "#577590"]}
-                    numberOfPieces={255}
+                    numberOfPieces={width < 768 ? 50 : 150}
                     gravity={0.25}
                     style={{
                         position: "fixed",
@@ -83,6 +83,7 @@ function AlbumDeFotos(){
                                     src={image.thumbnailImageSrc} 
                                     className={styles.imagem} 
                                     alt={image.alt} 
+                                    loading="lazy"
                                 />
                             </div>
                         ))
