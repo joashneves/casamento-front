@@ -40,11 +40,13 @@ function AlbumDeFotos(){
     const lastImageElementRef = useCallback(node => {
         if (loading) return;
         if (observer.current) observer.current.disconnect();
+        
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
                 loadImages();
             }
-        });
+        }, { threshold: 0.1 }); // Added a threshold for better performance
+
         if (node) observer.current.observe(node);
     }, [loading, hasMore, loadImages]);
 
@@ -55,15 +57,18 @@ function AlbumDeFotos(){
             setShowConfetti(false);
         }, 5000);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(timer);
+            if (observer.current) observer.current.disconnect();
+        };
     }, []);
 
     const itemTemplate = (item) => {
-        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} loading="lazy" crossOrigin="anonymous" />;
+        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} loading="lazy" decoding="async" crossOrigin="anonymous" />;
     }
 
     const thumbnailTemplate = (item) => {
-        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} loading="lazy" crossOrigin="anonymous" />;
+        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} loading="lazy" decoding="async" crossOrigin="anonymous" />;
     }
 
     return(
@@ -73,7 +78,8 @@ function AlbumDeFotos(){
                     width={width}
                     height={height}
                     colors={["#FFF", "#577590"]}
-                    numberOfPieces={width < 768 ? 50 : 150}
+                    numberOfPieces={width < 768 ? 20 : 50} // Reduced number of pieces
+                    recycle={false} // Don't recycle to stop animation eventually
                     gravity={0.25}
                     style={{
                         position: "fixed",
@@ -105,7 +111,7 @@ function AlbumDeFotos(){
                         images && images.map((image, index) => (
                             <div 
                                 className={styles.imagemContainer} 
-                                key={index}
+                                key={image.alt || index}
                                 onClick={() => { setActiveIndex(index); galleria.current.show(); }}
                             >
                                 <img 
@@ -113,6 +119,7 @@ function AlbumDeFotos(){
                                     className={styles.imagem} 
                                     alt={image.alt} 
                                     loading="lazy"
+                                    decoding="async"
                                     crossOrigin="anonymous"
                                 />
                             </div>
