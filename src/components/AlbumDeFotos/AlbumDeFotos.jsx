@@ -8,19 +8,35 @@ import { useWindowSize } from 'react-use';
 function AlbumDeFotos(){
     const { width, height } = useWindowSize();
 
-    const [images, setImages] = useState(null);
+    const [images, setImages] = useState([]);
+    const [offset, setOffset] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const limit = 10;
+
     const [activeIndex, setActiveIndex] = useState(0);    
     const [showConfetti, setShowConfetti] = useState(true);
     const galleria = useRef(null);
 
+    const loadImages = async () => {
+        if (loading || !hasMore) return;
+        setLoading(true);
+        try {
+            const newImages = await PhotoService.getImages(offset, limit);
+            if (newImages.length < limit) {
+                setHasMore(false);
+            }
+            setImages(prev => [...prev, ...newImages]);
+            setOffset(prev => prev + limit);
+        } catch (error) {
+            console.error('Error loading images:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        PhotoService.getImages().then(data => {
-            // Filtra o array para manter apenas itens onde a URL termina com .webp
-            const filteredImages = data.filter(item => 
-                item.itemImageSrc.toLowerCase().endsWith('.webp')
-            );
-            setImages(filteredImages);
-        });
+        loadImages();
 
         const timer = setTimeout(() => {
             setShowConfetti(false);
@@ -30,11 +46,11 @@ function AlbumDeFotos(){
     }, []);
 
     const itemTemplate = (item) => {
-        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} loading="lazy" />;
+        return <img src={item.itemImageSrc} alt={item.alt} style={{ width: '100%', display: 'block' }} />;
     }
 
     const thumbnailTemplate = (item) => {
-        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} loading="lazy" />;
+        return <img src={item.thumbnailImageSrc} alt={item.alt} style={{ display: 'block' }} />;
     }
 
     return(
@@ -83,12 +99,23 @@ function AlbumDeFotos(){
                                     src={image.thumbnailImageSrc} 
                                     className={styles.imagem} 
                                     alt={image.alt} 
-                                    loading="lazy"
+                                
                                 />
                             </div>
                         ))
                     }
                 </div>
+                {hasMore && (
+                    <div className={styles.loadMoreContainer}>
+                        <button 
+                            className={styles.loadMoreButton} 
+                            onClick={loadImages} 
+                            disabled={loading}
+                        >
+                            {loading ? 'Carregando...' : 'Ver mais fotos'}
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
